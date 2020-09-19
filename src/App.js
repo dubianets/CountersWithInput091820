@@ -1,26 +1,63 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react';
+import CounterList from "./CounterList";
+import ApperCase from "./ApperCase";
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    const [counters, setCounters] = useState([0, 0, 0])
+
+    const resetCounter = [0, 0, 0];
+
+    const addCuonter = (value) => {
+        const newCounter = [...counters];
+        value = value ? value : 0;
+        newCounter.push(value);
+        setCounters(newCounter);
+    }
+
+    const refreshAll = () => {
+        const arrRefresh = counters.map(el => el = 0);
+        setCounters(arrRefresh);
+}
+
+    const resetCounters = () => {
+        setCounters(resetCounter);
+    }
+
+
+    const counterDelete = (index) => {
+        const arrDelete = counters.filter((el, i) =>{
+            return index !== i ? true : false;
+        })
+        setCounters(arrDelete);
+    }
+
+const counterChanger = (index, val) => {
+
+        const arrChange = counters.map((el, i) => {
+            if(index === i){
+               return  el + val;
+            }
+            return el;
+        })
+        setCounters(arrChange);
+    }
+
+
+
+    return (
+        <div>
+
+          <ApperCase addCuonter={addCuonter} refreshAll={refreshAll} resetCounters={resetCounters} />
+          <hr/>
+            <div>
+
+                {counters.map((el, index) => <CounterList counterDelete={counterDelete}  counterChanger={counterChanger}  index={index} el={el} key={Math.random()}/>)}
+
+            </div>
+        </div>
+    );
 }
 
 export default App;
